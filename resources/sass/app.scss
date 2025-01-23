@@ -1,0 +1,13 @@
+
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap のスタイルをインポートする前に、変数を設定する
+$display-font-style: normal; // 必要に応じて適切な値に変更
+$display-font-weight: 400;  // 必要に応じて適切な値に変更
+
+// Bootstrap のスタイルをインポート
+@import 'bootstrap/scss/bootstrap';

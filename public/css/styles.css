@@ -1,0 +1,54 @@
+/* styles.cssの例 */
+body {
+   font-family: 'Nunito', sans-serif;
+}
+
+.container {
+   margin-top: 30px;
+}
+
+.card {
+   border: 1px solid #ddd;
+   padding: 20px;
+   border-radius: 5px;
+}
+
+.card-title {
+   font-size: 1.25rem;
+   font-weight: bold;
+}
+
+.card-body {
+   text-align: center;
+}
+
+/* 必要に応じて他のスタイルを追加 */
+
+
+/* カードのデザイン */
+.card {
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+   object-fit: cover;
+   height: 200px;
+   border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+   padding: 16px;
+}
+
+/* ボタンのデザイン */
+.btn-primary {
+   background-color: #007bff;
+   border-color: #007bff;
+}
+
+.btn-primary:hover {
+   background-color: #0056b3;
+   border-color: #004085;
+}

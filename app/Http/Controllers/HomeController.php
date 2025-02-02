@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Item; // ここでItemモデルをインポート
 
 use Illuminate\Http\Request;
 
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
+        // Itemモデルを使って製品情報を取得
+        $items = Item::all();
+
+        // ビューに渡す
+        return view('home', compact('items'));
+        }
 }

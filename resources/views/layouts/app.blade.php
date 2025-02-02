@@ -8,16 +8,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Vite（Bootstrap SCSS を含む） -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <!-- styles.css を使うなら Bootstrap より後に読み込む -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
+    {{-- <link href="{{ asset('css/styles.css') }}" rel="stylesheet"> --}}
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
- 
-   
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -33,7 +37,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">Home</a>
+                            <a class="nav-link" href="{{ url('/home') }}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/about') }}">About</a>
@@ -47,8 +51,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/cart') }}">Cart</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/') }}"></a>
+                        </li>
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->

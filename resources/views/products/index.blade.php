@@ -1,32 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>製品一覧</h1>
-
-        <div class="row">
-            @foreach($items as $item)
-                <div class="col-md-4">
-                    <div class="card">
-                        <!-- 画像の表示 -->
-                        <img src="{{ asset('images/' . $item->image_path) }}" alt="{{ $item->name }}" width="230">
-
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $item->name }}</h5>
-                            <p class="card-text">{{ $item->description }}</p>
-                            <p class="card-text">¥{{ number_format($item->price) }}</p>
-                            
-                            <!-- カートに追加するフォーム -->
-                            <form action="{{ route('cart.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                <input type="hidden" name="quantity" value="1"> <!-- 数量を1に設定 -->
-                                <button type="submit" class="btn btn-primary">カートに追加</button>
-                            </form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <a href="{{ url('http://localhost/') }}">Laravel</a>
+                    <span> * </span>
+                    
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
                         </div>
+                    @endif
+
+                    @auth
+                        <p>{{ __('messages.You are logged in!') }}</p>
+                    @else
+                        <p>{{ __('Please log in to access this content.') }}</p>
+                    @endauth
+                </div>
+
+                <div class="card-body">
+                    <h1>About Us</h1>
+                    <div class="mt-4">
+                        
+                        
+                    <a href="{{ route('about') }}" class="btn btn-primary">About</a>
+                    
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary">dashboard</a>
+                    <a href="http://localhost/home" target="_blank" rel="noopener" class="btn btn-primary">製品一覧</a>
+                    <a href="http://localhost/cart/create" target="_blank" rel="noopener" class="btn btn-primary">カート/作成</a>
+                    <a href="http://localhost/admin" target="_blank" rel="noopener" class="btn btn-primary">Admin</a>
+                        <a href="https://example.com" target="_blank" rel="noopener" class="btn btn-secondary">外部リンク</a>
                     </div>
                 </div>
-            @endforeach
+            </div>
         </div>
     </div>
+</div>
 @endsection

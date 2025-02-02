@@ -18,7 +18,7 @@ class CreateCartsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
-            $table->decimal('total_price', 8, 2); // 合計金額を追加
+            $table->decimal('total_price', 8, 2)->default(0); // デフォルト値を0に設定
             $table->timestamps();
         });
     }

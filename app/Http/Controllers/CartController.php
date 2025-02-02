@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Item;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController; // 追加
 
-class CartController extends BaseController // 変更: ControllerをBaseControllerとして継承
+class CartController extends Controller
 {
-    // コンストラクタで認証をミドルウェアとして適用
     public function __construct()
     {
         $this->middleware('auth');
@@ -18,23 +16,23 @@ class CartController extends BaseController // 変更: ControllerをBaseControll
     // カートの一覧を表示
     public function index()
     {
-        // カートとそのアイテム情報を取得
-        $carts = Cart::with('item')->where('user_id', auth()->id())->get(); // ユーザーのカートのみ取得
+        $carts = Cart::where('user_id', auth()->id())->get();
         return view('carts.index', compact('carts'));
     }
-
-    // カートに商品を追加するためのページ
+    
+    // カートに商品を追加するページ
     public function create()
     {
-        // 商品リストを取得
-        $items = Item::all();
-        return view('carts.create', compact('items'));
+        $items = Item::all(); 
+        $cartItems = Cart::where('user_id', auth()->id())->get();
+        $totalPrice = $cartItems->sum(fn($item) => $item->item->price * $item->quantity);
+
+        return view('carts.create', compact('items', 'cartItems', 'totalPrice'));
     }
 
     // カートに商品を追加
     public function store(Request $request)
     {
-        // 入力バリデーション
         $validated = $request->validate([
             'item_id' => 'required|exists:items,id',
             'quantity' => 'required|integer|min:1',
@@ -46,23 +44,20 @@ class CartController extends BaseController // 変更: ControllerをBaseControll
             'quantity.min' => '数量は1以上でなければなりません。',
         ]);
 
-        // カートに商品を追加
         Cart::create([
             'user_id' => auth()->id(),
             'item_id' => $validated['item_id'],
             'quantity' => $validated['quantity'],
         ]);
 
-        // リダイレクトして成功メッセージを表示
-        return redirect()->route('cart.index')->with('success', '商品がカートに追加されました！');
+        return redirect()->route('carts.index')->with('success', '商品がカートに追加されました！');
     }
 
     // カートのアイテム数量を更新
     public function update(Request $request, $id)
     {
-        $cart = Cart::findOrFail($id); // アイテムが見つからない場合は404エラー
-
-        // 入力バリデーション
+        $cart = Cart::findOrFail($id);
+        
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1',
         ], [
@@ -71,29 +66,17 @@ class CartController extends BaseController // 変更: ControllerをBaseControll
             'quantity.min' => '数量は1以上でなければなりません。',
         ]);
 
-        // アイテムの数量を更新
-        $cart->update([
-            'quantity' => $validated['quantity'],
-        ]);
-
-        // リダイレクトして成功メッセージを表示
-        return redirect()->route('cart.index')->with('success', 'カートが更新されました！');
+        $cart->update(['quantity' => $validated['quantity']]);
+        
+        return redirect()->route('carts.index')->with('success', 'カートが更新されました！');
     }
 
     // カートからアイテムを削除
     public function destroy($id)
     {
-        $cart = Cart::find($id);
-
-        // カートアイテムが存在しない場合
-        if (!$cart) {
-            return redirect()->route('cart.index')->with('error', 'カートアイテムが見つかりませんでした。');
-        }
-
-        // アイテムを削除
-        $cart->delete();
-
-        // リダイレクトして成功メッセージを表示
-        return redirect()->route('cart.index')->with('success', '商品がカートから削除されました！');
+        $cartItem = Cart::findOrFail($id);
+        $cartItem->delete();
+        
+        return redirect()->route('carts.index')->with('success', '商品がカートから削除されました！');
     }
 }

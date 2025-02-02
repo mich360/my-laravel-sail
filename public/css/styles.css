@@ -52,3 +52,8 @@ body {
    background-color: #0056b3;
    border-color: #004085;
 }
+.card-img-top {
+   height: 270px;
+   object-fit: cover;
+   border-radius: 10px;  /* 必要に応じて角丸を追加 */
+}

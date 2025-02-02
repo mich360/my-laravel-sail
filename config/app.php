@@ -78,12 +78,9 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
-
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
-
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
-
+   'locale' => env('APP_LOCALE', 'ja'), // アプリケーションのデフォルト言語を日本語に設定
+   'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'), // フォールバック言語を英語のままに設定
+   'faker_locale' => env('APP_FAKER_LOCALE', 'ja_JP'), // Fakerを日本語用に設定
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -104,6 +101,7 @@ return [
             explode(',', env('APP_PREVIOUS_KEYS', ''))
         ),
     ],
+
 
     /*
     |--------------------------------------------------------------------------

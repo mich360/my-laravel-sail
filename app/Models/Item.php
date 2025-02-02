@@ -9,6 +9,7 @@ class Item extends Model
 {
     use HasFactory;
 
+    // 必要なカラムをすべてfillableに追加
     protected $fillable = [
         'name', 'image_path', 'description', 'price'
     ];

@@ -1,14 +1,11 @@
-@use 'bootstrap/scss/functions';
-@use 'bootstrap/scss/variables' as *;  // 変数を先に読み込む
-@use 'bootstrap/scss/mixins';          // ミキシンを読み込む
-@use 'bootstrap/scss/bootstrap';       // Bootstrap 本体を読み込む
-
-/* 既存のスタイルの下に追加 */
+@use "bootstrap/scss/functions";
+@use "bootstrap/scss/variables";
+@use "bootstrap/scss/mixins";
+@use "bootstrap/scss/bootstrap";
+// カスタムスタイルは最後に定義
 .card-img-top {
-   height: 250px;             /* 画像の高さを変更 */
-   object-fit: cover;         /* 画像を縦横比を保ったまま、領域にフィットさせる */
-   border-radius: 10px;       /* 角丸を追加 */
+   height: 250px;
+   object-fit: cover;
+   border-radius: 10px;
    background-color: aqua;
 }
-
-

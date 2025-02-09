@@ -2,92 +2,73 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\{
+    ProductController,
+    CartController,
+    CheckoutController,
+    ContactController,
+    EmailVerificationController,
+    HomeController,
+    SettingsController,
+    UserController,
+    AdminController
+};
 
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\EmailVerificationController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\UserController;
-// routes/web.php
-use App\Http\Controllers\AdminController;
+// 認証ルート（メール確認を有効化）
+Auth::routes(['verify' => true]);
 
-Route::resource('carts', CartController::class);
-// 管理者専用ページ
-Route::middleware(['auth', 'is_admin'])->get('/admin', [AdminController::class, 'index'])->name('admin.index');
+// ホームページと基本ページ
+Route::get('/', function () { return view('welcome'); })->name('home');
+Route::get('/about', function () { return view('about'); })->name('about');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
-// 認証されたユーザーが自分の情報だけにアクセスできるように
+// 設定関連
+Route::middleware(['auth'])->group(function () {
+    Route::get('/settings', function () { return view('settings'); })->name('settings');
+    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::post('/settings/password', [UserController::class, 'updatePassword'])->name('settings.updatePassword');
+    Route::post('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.updatePassword');
+});
+
+// ダッシュボード
+Route::middleware(['auth'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+// ユーザー情報
 Route::middleware(['auth'])->get('/user/{id}', function ($id) {
     if (Auth::id() != $id) {
         abort(403, 'Unauthorized action.');
     }
-    return (new UserController())->show($id); // 自分の情報を表示
+    return (new UserController())->show($id);
 })->name('user.show');
 
-// Route::get('/user/{id}', [UserController::class, 'show']);
+// 管理者専用ページ
+Route::middleware(['auth', 'is_admin'])->get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-
-Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');
-Route::post('checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-
-Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
-
-
-Route::get('/settings', function () {
-    return view('settings');
-})->middleware(['auth'])->name('settings');
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-// Route::get('/dashboard', function () {
-//     return 'Dashboardページが未実装です。';
-// })->middleware(['auth'])->name('dashboard');
-
-
-Route::get('/home', [HomeController::class, 'index'])->name('home.index');
-// 認証ルート（メール確認を有効化）
-Auth::routes(['verify' => true]);
-
-// ホームページ
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-// Aboutページ
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-// 認証後のルート
+// カート関連
 Route::middleware(['auth'])->group(function () {
-    // 管理画面
-    
-
-    // カートのルート
+    Route::resource('carts', CartController::class);
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/cart/create', [CartController::class, 'create'])->name('cart.create');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::put('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
-// 商品のルート
+// 商品関連
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
-// メール確認ページ
-Route::get('/verify', [EmailVerificationController::class, 'show'])->middleware('auth');
-
-// チェックアウトのルート
+// チェックアウト
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::post('/checkout/session', [CheckoutController::class, 'createCheckoutSession'])->name('checkout.session');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
-// コンタクトフォームのルート
+// メール認証
+Route::get('/verify', [EmailVerificationController::class, 'show'])->middleware('auth');
+
+// コンタクトフォーム
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');

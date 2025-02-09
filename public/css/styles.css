@@ -4,7 +4,9 @@ body {
 }
 
 .container {
-   margin-top: 30px;
+   max-width: 1200px;
+   margin: 0 auto;
+   padding: 20px;
 }
 
 .card {
@@ -56,4 +58,36 @@ body {
    height: 270px;
    object-fit: cover;
    border-radius: 10px;  /* 必要に応じて角丸を追加 */
+}
+
+/* 追加修正 */
+/* ナビゲーションバーのスタイルを変更 */
+.navbar {
+   background-color: #343a40 !important; /* 背景色をダークグレーに */
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影 */
+}
+
+/* ナビゲーションのテキスト色を変更 */
+.navbar .nav-link {
+   color: white !important; /* テキストを白色に */
+   font-weight: bold; /* 太字にする */
+}
+
+/* ホバー時のテキスト色変更 */
+.navbar .nav-link:hover {
+   color: #ffc107 !important; /* ホバー時に黄色に */
+}
+
+/* ドロップダウンメニューのスタイル */
+.navbar .dropdown-menu {
+   background-color: #343a40; /* 背景色を統一 */
+   border: none; /* 枠線をなくす */
+}
+
+.navbar .dropdown-item {
+   color: white !important; /* ドロップダウンのリンク色 */
+}
+
+.navbar .dropdown-item:hover {
+   background-color: #495057; /* ホバー時の背景色 */
 }

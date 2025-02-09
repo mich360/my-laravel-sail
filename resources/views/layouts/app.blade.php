@@ -37,19 +37,23 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/home') }}">Home</a>
+                            <a class="nav-link" href="{{ url('/home') }}">商品一覧</a>
+
+
+
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                            <a class="nav-link" href="{{ url('/about') }}">概要</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
+                            <a class="nav-link" href="{{ url('/contact') }}">お問い合わせ</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/products') }}">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/cart') }}">Cart</a>
+                            <a class="nav-link" href="{{ url('/cart') }}">カート</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}"></a>

@@ -26,7 +26,6 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 Route::middleware(['auth'])->group(function () {
     Route::get('/settings', function () { return view('settings'); })->name('settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
-    Route::post('/settings/password', [UserController::class, 'updatePassword'])->name('settings.updatePassword');
     Route::post('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.updatePassword');
 });
 
@@ -43,8 +42,10 @@ Route::middleware(['auth'])->get('/user/{id}', function ($id) {
     return (new UserController())->show($id);
 })->name('user.show');
 
-// 管理者専用ページ
-Route::middleware(['auth', 'is_admin'])->get('/admin', [AdminController::class, 'index'])->name('admin.index');
+// 管理者ページルート
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+});
 
 // カート関連
 Route::middleware(['auth'])->group(function () {
@@ -72,3 +73,7 @@ Route::get('/verify', [EmailVerificationController::class, 'show'])->middleware(
 // コンタクトフォーム
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');
+
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+});

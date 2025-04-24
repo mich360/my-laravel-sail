@@ -17,25 +17,32 @@ class AdminController extends Controller
     {
         // 現在ログインしているユーザーを取得
         $authUser = auth()->user();
-        dd($authUser);  // ユーザー情報を確認
+
         // 管理者チェック（UserモデルにisAdminメソッドが実装されている必要があります）
         if (!$authUser->isAdmin()) {
             abort(403, '管理者専用ページです。');
         }
 
+        // 最新のユーザーを1回だけ取得
+        $latestUser = User::latest()->first();
+
         // 全ユーザーのリストを取得
         $users = User::all();
+
+        // 最新のユーザーが存在する場合のみ情報を取得
+        if ($latestUser) {
+            $latestUserName = $latestUser->name;
+            $latestUserCreatedAt = $latestUser->created_at->toDateString();
+        } else {
+            $latestUserName = 'なし';
+            $latestUserCreatedAt = 'なし';
+        }
 
         // サンプルデータ
         $data = [
             '総ユーザー数' => User::count(),
-            // 'アクティブユーザー数' => User::where('status', 'active')->count(),
-            '最新の登録ユーザー' => User::latest()->first()->name,
-            // 最も'アクティブなユーザー' => User::withCount('activities')->orderBy('activities_count', 'desc')->first()->name,
-            '最新のユーザー登録日' => User::latest()->first()->created_at->toDateString(),
-            // '売上高' => Order::sum('total_amount'),
-            // '支払い処理された注文数' => Order::where('status', 'completed')->count(),
-            // '新規顧客数' => Customer::where('created_at', '>=', now()->startOfMonth())->count(),
+            '最新の登録ユーザー' => $latestUserName,
+            '最新のユーザー登録日' => $latestUserCreatedAt,
         ];
         
         // ビューにデータを渡して表示

@@ -1,4 +1,5 @@
 <!-- resources/views/admin/index.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')
@@ -23,7 +24,7 @@
     </div>
 
     <!-- 管理者専用情報 -->
-    @if($authUser->isAdmin())
+    @if($authUser->isAdmin()) <!-- isAdmin メソッドを使う -->
         <div class="alert alert-success mt-4"> <!-- スタイリングのために余白を追加 -->
             <h3>管理者専用情報</h3>
             <p>このセクションは管理者のみ閲覧可能です。</p>
@@ -35,6 +36,3 @@
         </div>
     @endif
 @endsection
-
-
-

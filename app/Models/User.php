@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Relations\HasMany; // 追加
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -50,9 +50,10 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->role === 'admin';  // roleが'admin'の場合、管理者と判定
+        // roleが'admin'の場合、管理者と判定
+        return $this->role === 'admin';  
     }
 
     /**

@@ -32,6 +32,7 @@
                 <li>特別な設定項目</li>
                 <li>詳細なシステム情報</li>
                 <li>その他の管理機能</li>
+                <li><a href="{{ route('contacts.index') }}" class="btn btn-outline-primary mt-2">お問い合わせ一覧を見る</a></li>
             </ul>
         </div>
     @endif

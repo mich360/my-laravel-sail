@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Contact;
 use App\Http\Controllers\{
     ProductController,
     CartController,
@@ -13,7 +14,6 @@ use App\Http\Controllers\{
     UserController,
     AdminController
 };
-
 // 認証ルート（メール確認を有効化）
 Auth::routes(['verify' => true]);
 
@@ -74,6 +74,13 @@ Route::get('/verify', [EmailVerificationController::class, 'show'])->middleware(
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.form');
 Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');
 
-Route::middleware(['auth', 'is_admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-});
+// お問い合わせ一覧表示（管理用）管理者のみアクセス可能な設定
+Route::middleware(['auth', 'is_admin'])->get('/contacts', function () {
+    $contacts = Contact::all();
+    return view('contact.index', compact('contacts'));  // 'contact' フォルダを指定
+})->name('contacts.index');
+
+Route::middleware(['auth', 'is_admin'])->delete('/contacts/{id}', function ($id) {
+    \App\Models\Contact::findOrFail($id)->delete();
+    return redirect()->route('contacts.index')->with('success', '削除しました');
+})->name('contacts.destroy');

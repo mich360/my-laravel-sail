@@ -31,9 +31,11 @@ class ContactController extends Controller
             'email' => 'required|email',
             'message' => 'required|string',
         ]);
-
-        // メール送信やデータベース保存などの処理をここで行います。
-
+    
+        // 🔽 データベースに保存する処理を追加
+        \App\Models\Contact::create($validated);
+    
         return redirect()->route('contact.form')->with('success', 'お問い合わせが送信されました！');
     }
+    
 }

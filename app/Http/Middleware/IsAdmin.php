@@ -11,7 +11,7 @@ class IsAdmin
     {
         // ユーザーがログインしていない場合、ログイン画面にリダイレクト
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please log in first.');
+            return redirect()->route('login')->with('error', 'ログインしてください。');
         }
 
         // ログインしたユーザーを取得
@@ -23,6 +23,6 @@ class IsAdmin
         }
 
         // 管理者でない場合、エラーメッセージと共にトップページにリダイレクト
-        return redirect('/')->with('error', 'You do not have admin access.');
+        return redirect('/')->with('error', '管理者専用ページです。アクセス権限がありません。');
     }
 }

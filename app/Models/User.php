@@ -13,36 +13,23 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
         'role', // 管理者判定のために 'role' カラムを追加
+        'is_admin', // is_admin フラグを追加
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'role' => 'string',  // roleをstring型としてキャスト
+        'is_admin' => 'boolean', // is_admin を boolean としてキャスト
     ];
 
     /**
@@ -52,8 +39,8 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        // roleが'admin'の場合、管理者と判定
-        return $this->role === 'admin';  
+        // is_admin カラムが true の場合、管理者と判定
+        return $this->is_admin;
     }
 
     /**

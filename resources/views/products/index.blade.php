@@ -33,7 +33,7 @@
                     <a href="http://localhost/home" target="_blank" rel="noopener" class="btn btn-primary">製品一覧</a>
                     <a href="http://localhost/cart/create" target="_blank" rel="noopener" class="btn btn-primary">カート/作成</a>
                     <a href="http://localhost/admin" target="_blank" rel="noopener" class="btn btn-primary">Admin</a>
-                        <a href="https://example.com" target="_blank" rel="noopener" class="btn btn-secondary">外部リンク</a>
+                        <a href="https://welcomecanape.site/" target="_blank" rel="noopener" class="btn btn-secondary">外部リンク</a>
                     </div>
                 </div>
             </div>

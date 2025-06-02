@@ -1,4 +1,4 @@
-name: SFTP Deploy
+name: FTP Deploy
 
 on:
   push:
@@ -6,19 +6,18 @@ on:
       - main
 
 jobs:
-  deploy:
+  ftp-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: SFTP Upload
-        uses: appleboy/scp-action@v0.1.7
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: 22
-          source: "./"
-          target: "/home/cf616276/public_html"
+          server: ${{ secrets.FTP_SERVER }}       # sv213.cloudfree.ne.jp
+          username: ${{ secrets.FTP_USERNAME }}   # cf616276
+          password: ${{ secrets.FTP_PASSWORD }}   # FTPパスワード
+          protocol: ftp
+          server-dir: public_html/

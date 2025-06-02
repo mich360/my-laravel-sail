@@ -18,3 +18,4 @@ require __DIR__.'/../vendor/autoload.php';
 <-zsh trigger GitHub Actions -->
 <-zsh re-deploy test -->
 <-zsh re-deploy test -->
+<-zsh re-deploy test -->

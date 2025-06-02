@@ -17,3 +17,4 @@ require __DIR__.'/../vendor/autoload.php';
     ->handleRequest(Request::capture());
 <-zsh trigger GitHub Actions -->
 <-zsh re-deploy test -->
+<-zsh re-deploy test -->
